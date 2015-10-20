@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head></head><body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="WordSection1">
+
+<div>
+
+<p><b><span style="font-size:16.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;">A Tiny
+Matrix Package</span></b></p>
+
+<p>Write a parallel matrix arithmetic routine with the following interface</p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">interface <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">MatMath</span></span>{<br/>
+&#160;&#160;&#160; void multiply(<span class="spelle"><span style="font-family:
+&quot;Courier New&quot;;">int</span></span>[][] A, <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]B, <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]C);&#160; // multiply A
+and B into C<br/>
+&#160;&#160;&#160; void add(<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]A,
+<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]B,
+<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]C);&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+// add A and B into C<br/>
+&#160;&#160;&#160; void print(<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]A);&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+// pretty print A<br/>
+}</span></p>
+
+<p>Notice that both addition and multiplication of matrices have tremendous
+scope for parallelization, <span class="spelle">eg</span>. <span class="grame">each</span>
+entry of resulting matrix for multiplication can be computed independently by
+the following routine:</p>
+
+<p><span class="grame"><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">class</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;"> <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">RowColProdExecutable</span></span> implements
+<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">Runnable</span></span>{</span></p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160;\\ <span class="grame"><span style="font-family:&quot;Courier New&quot;;">code</span></span> to
+calculate entry at [row][<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">col</span></span>]
+of the resulting matrix<br/>
+&#160;\\ from a multiplication</span></p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160;&#160; <span class="grame"><span style="font-family:&quot;Courier New&quot;;">int[</span></span>][]
+first, second, result;<br/>
+&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>
+row, <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">col,size</span></span>;</span></p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160; <span class="grame"><span style="font-family:&quot;Courier New&quot;;">RowColProdExecutable(</span></span><span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[][]first,
+second, third; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>
+<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">row,col,size</span></span>){</span></p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160;&#160;&#160;&#160;
+<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">this.first</span></span>
+= first;<br/>
+&#160;&#160;&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">this.second</span></span>
+= second;<br/>
+&#160;&#160;&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">this.result</span></span>
+= result;<br/>
+&#160;&#160;&#160;&#160; this.row = row;<br/>
+&#160;&#160;&#160;&#160; this.col = <span class="spelle"><span style="font-family:
+&quot;Courier New&quot;;">col</span></span>;<br/>
+&#160;&#160;&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">this.size</span></span>
+= size;<br/>
+&#160;&#160; }</span></p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160; void run(){<br/>
+&#160;&#160;&#160;&#160;&#160; for (k=0; k&lt; size; k++){<br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; third[row][<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">col</span></span>] +=
+first[row][k]*second[k][<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">col</span></span>];<br/>
+&#160;&#160;&#160;&#160;&#160; }<br/>
+&#160; }<br/>
+&#160;}</span></p>
+
+<p><span class="grame">Similarly for addition.</span></p>
+
+<p>&#160;</p>
+
+<h2><span class="grame"><span>Your</span></span><span> Job.</span></h2>
+
+<p class="MsoNormal">&#160;</p>
+
+</div>
+
+<ol start="1" type="1">
+ <li class="MsoNormal"><span>Finish up a parallel implementation of class <span class="spelle">MatMath using threads.<span>&#160;
+     </span></span>Your answer will be evaluated on correctness and on the
+     degree of parallelization.&#160; (<span class="grame">eg</span>. a correct
+     implementation that does not use threads at all will get a ZERO, as will
+     an incorrect implementation that uses threads.)</span></li>
+ <li class="MsoNormal"><span>Finish up a parallel implementation of class <span class="spelle">MatMath using parallel streams from Java 8. <span>&#160;&#160;</span></span>This version of the program
+     should NOT use ANY explicit threads.</span></li>
+ <li class="MsoNormal"><span>I will test both your programs using the following
+     driver that calculates ((A+B) * C)*D for given matrices A<span class="grame">,B,C</span>.&#160;&#160; </span><span class="grame"><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">class</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;"> <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">MainClass</span></span>{</span></li>
+</ol>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160; public static
+void main(String <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">args</span></span>){<br/>
+&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">int</span></span>[
+][ ] <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">A,B,C,D,r,s,t</span></span>;<br/>
+&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">MathMathImpl</span></span>
+u = new <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">MatMathImpl</span></span>();<br/>
+&#160;&#160; <br/>
+&#160;&#160; \\ code to initialize A,B,C,D<br/>
+&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">u.add</span></span>(<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">A,B,r</span></span>);<br/>
+&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">u.multiply</span></span>(<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">r,C,s</span></span>);<br/>
+&#160;&#160; <span class="spelle"><span style="font-family:&quot;Courier New&quot;;">u.multiply</span></span>(<span class="spelle"><span style="font-family:&quot;Courier New&quot;;">s,D,t</span></span>);</span></p>
+
+<p><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;">&#160;}</span></p>
+
+<p class="MsoNormal"><b>&#160;</b></p>
+
+<p class="MsoNormal" style="margin-bottom:12.0pt;">Your
+answer should be put into a zip archive file, and submitted using the Course <span class="spelle">OnLine</span> system.</p>
+
+<p class="MsoNormal"><span>&#160;</span></p>
+
+</div>
+
+
+
+
+<script type="text/javascript" src="/d2l/common/math/MathML.js?v=10.3.0.2146-142 "></script><script type="text/javascript">D2LMathML.DesktopInit('/d2l/common/mathjax/2.1/MathJax.js?config=MML_HTMLorMML','/d2l/common/mathjax/2.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML');</script></body></html>
